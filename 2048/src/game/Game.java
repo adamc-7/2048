@@ -10,7 +10,7 @@ public class Game {
 	Tile[][] board = new Tile[4][4];
 	
 	//current number of points earned
-	int points;
+	static int points;
 	
 	public void setUpBoard()
 	{
@@ -27,11 +27,16 @@ public class Game {
 			{
 				if(board[i][j] == null)
 				{
-					System.out.print("0 ");
+					System.out.print("0     ");
 				}
 				else
 				{
 					System.out.print(board[i][j].getVal()+ " ");
+					int length = (int)(Math.floor(Math.log10(board[i][j].getVal()))) + 1; //finds character length of number to be printed
+					for(int x=0;x<5-length;x++) //properly formats spacing between numbers
+					{
+						System.out.print(" ");
+					}
 				}
 			}
 			System.out.println();
@@ -83,6 +88,7 @@ public class Game {
 		printBoard();
 		while(moveAvailable())
 		{
+			System.out.println("Score: "+points);
 			System.out.println("Enter Command:");
 			char command = in.next().charAt(0);
 			Tile [][] temp = copyBoard(board);
@@ -92,6 +98,7 @@ public class Game {
 				choosePositionAndPlace();
 			}
 			printBoard();
+			
 		}
 		System.out.println("Game Over");
 	}
@@ -362,4 +369,13 @@ public class Game {
 		board = copyBoard(temp);
 		return false;
 	}
+	
+//	public static void updateScore(int val)
+//	{
+//		points+=val;
+//	}
+	
+	
+	
+	
 }
