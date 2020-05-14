@@ -30,6 +30,7 @@ public class Tile {
 	public void updateVal()
 	{
 		value *= 2;
+//		Game.updateScore(value);
 	}
 	
 }
