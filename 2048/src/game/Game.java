@@ -96,7 +96,7 @@ public class Game {
 		System.out.println("Game Over");
 	}
 	
-	public void playARound(char c)	//takes command in the form of a char and calls helper methods to execute requested move
+	public void playARound(char c)	//takes command in the form of a char and calls helper methods to execute the requested move
 	{
 		if(c == 'a')
 		{
@@ -328,7 +328,7 @@ public class Game {
 		return copy;
 	}
 	
-	public boolean moveAvailable() //Checks if there is a move available by checking if the board changes when moved left, right, up, and down
+	public boolean moveAvailable() //Checks if there is a move available by checking if the board changes when moved left, right, up, and down 
 	{
 		Tile[][] temp = copyBoard(board);
 		
