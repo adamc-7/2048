@@ -378,7 +378,7 @@ public class Game {
 		}
 		board = copyBoard(temp);
 		
-		for(int i=0;i<board.length;i++) //Checks if any tile combinations are available
+		for(int i=0;i<board.length;i++) //Checks if any tile combinations are available.
 		{
 			for(int j=0;j<board[0].length;j++)
 			{
