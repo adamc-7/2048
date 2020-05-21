@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GUI implements ActionListener{
+public class GUI implements ActionListener {
 
 	Game g;
 	JFrame frame;
@@ -45,14 +45,15 @@ public class GUI implements ActionListener{
 		panel.add(testLabel);
 		frame.add(panel, BorderLayout.CENTER);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("GUI Test");
-		frame.pack();
-		frame.setVisible(true);
 	}
+	
+	
 	
 	public void dispGame()
 	{
-		
+		frame.setTitle("GUI Test");
+		frame.pack();
+		frame.setVisible(true);
 	}
 
 	@Override
