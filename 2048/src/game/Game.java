@@ -370,6 +370,11 @@ public class Game {
 		return false;
 	}
 	
+	public Tile[][] getBoard()
+	{
+		return board;
+	}
+	
 //	public static void updateScore(int val)
 //	{
 //		points+=val;
