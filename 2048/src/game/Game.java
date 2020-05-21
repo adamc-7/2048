@@ -14,6 +14,7 @@ public class Game {
 	
 	public void setUpBoard()
 	{
+		//Places two tiles on board to start the game
 		choosePositionAndPlace();
 		choosePositionAndPlace();
 	}
@@ -21,6 +22,7 @@ public class Game {
 
 	public void printBoard()
 	{
+		//Prints the board in a 4 x 4 style
 		for(int i=0;i<board.length;i++)
 		{
 			for(int j=0;j<board[i].length;j++)
@@ -58,13 +60,13 @@ public class Game {
 				}
 			}
 		}
-		if(openCounter == 0)
+		if(openCounter == 0) //returns if no positions for a new tile are available
 		{
 			return;
 		}
-		int randomPos = ThreadLocalRandom.current().nextInt(0,openCounter); //sets randompos equal to an integer from 0 to openCounter-1
+		int randomPos = ThreadLocalRandom.current().nextInt(0,openCounter); //sets randompos equal to an integer from 0 to openCounter-1 that represents one of the open positions found in the first traversal
 		openCounter = 0; //resets openCounter to use a second time
-		for(int i=0;i<board.length;i++) //traverses through board a second time until it reaches the position of the new tile
+		for(int i=0;i<board.length;i++) //traverses through board a second time until it reaches the position of the new tile. Once it reaches this point, it creates a new Tile and puts it in this position and then returns.
 		{
 			for(int j=0;j<board[i].length;j++)
 			{
@@ -131,7 +133,10 @@ public class Game {
 	
 	private void left()
 	{
-		moveLeft();
+		//This method and the other directional methods execute the command entered by first moving all of the tiles in the given direction.
+		//Then, they combine all of the tiles that are next to each other and have the same value. Then, they move all of the tiles again to
+		//fill the empty spaces created when combining the tiles with the other non-combined tiles.
+		moveLeft(); 
 		
 		for(int i=0; i<board.length; i++)
 		{
@@ -153,6 +158,7 @@ public class Game {
 	
 	private void moveLeft()
 	{
+		//This method and the other move____ methods are private helper methods for the main directional methods which move all of the tiles in the given direction.
 		for(int i=0; i<board.length; i++)
 		{
 			for(int j=1; j<board[0].length; j++)
@@ -321,6 +327,7 @@ public class Game {
 	
 	public Tile[][] copyBoard(Tile[][] t)
 	{
+		//Creates a copy of the board
 		Tile[][] copy = new Tile[4][4];
 		for(int i=0; i<t.length; i++)
 		{
@@ -335,50 +342,103 @@ public class Game {
 		return copy;
 	}
 	
-	public boolean moveAvailable() //Checks if there is a move available by checking if the board changes when moved left, right, up, and down 
+	public boolean moveAvailable()
 	{
+		//Checks if there is a move available by checking if the board changes when moved left, right, up, and down.
+		//If board is the same after these moves (all tiles filled), then checks if any tiles can be combined with each other.
+		//If the board is the same after all moves and no tiles can be combined, returns false. Otherwise, returns true.
 		Tile[][] temp = copyBoard(board);
 		
-		left();
+		moveLeft();
 		if(checkDifferent(temp))
 		{
 			board = copyBoard(temp);
 			return true;
 		}
 		
-		right();
+		moveRight();
 		if(checkDifferent(temp))
 		{
 			board = copyBoard(temp);
 			return true;
 		}
 		
-		up();
+		moveUp();
 		if(checkDifferent(temp))
 		{
 			board = copyBoard(temp);
 			return true;
 		}
 		
-		down();
+		moveDown();
 		if(checkDifferent(temp))
 		{
 			board = copyBoard(temp);
 			return true;
 		}
 		board = copyBoard(temp);
+		
+		for(int i=0;i<board.length;i++) //Checks if any tile combinations are available
+		{
+			for(int j=0;j<board[0].length;j++)
+			{
+				if(i == board.length-1 || j == board[0].length-1)
+				{
+					if(i == board.length-1 && j != board[0].length-1)
+					{
+						if(board[i][j].getVal() == board[i][j+1].getVal())
+						{
+							return true;
+						}
+					}
+					if(i != board.length-1 && j == board[0].length-1)
+					{
+						if(board[i][j].getVal() == board[i+1][j].getVal())
+						{
+							return true;
+						}
+					}
+				}
+				else
+				{
+					if(board[i][j].getVal() == board[i][j+1].getVal() || board[i][j].getVal() == board[i+1][j].getVal())
+					{
+						return true;
+					}
+				}
+			}
+		}
+		
 		return false;
 	}
 	
 	public Tile[][] getBoard()
 	{
+		//getter
 		return board;
 	}
 	
-//	public static void updateScore(int val)
-//	{
-//		points+=val;
-//	}
+	public static void updateScore(int val)
+	{
+		//Adds val to points
+		points += val;
+	}
+	
+	public void testFillBoard() 
+	{
+		//Creates a board where each tile has a different value.
+		//Used to test the moveAvailable method to make sure it would correctly end the game in this case.
+		//Currently not being called.
+		int counter = 0;
+		for(int i=0;i<board.length;i++) 
+		{
+			for(int j=0;j<board[0].length;j++)
+			{
+				board[i][j] = new Tile(counter);
+				counter++;
+			}
+		}
+	}
 	
 	
 	
