@@ -1,6 +1,6 @@
 package game;
 
-import java.awt.BorderLayout; 
+import java.awt.BorderLayout;  
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +45,8 @@ public class GUI implements ActionListener {
 		panel.add(left);
 		panel.add(right);
 		panel.add(testLabel);
+		frame.add(panel, BorderLayout.CENTER);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	
