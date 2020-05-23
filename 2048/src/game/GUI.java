@@ -1,9 +1,11 @@
 package game;
 
-import java.awt.BorderLayout;
+import java.awt.BorderLayout; 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -43,14 +45,13 @@ public class GUI implements ActionListener {
 		panel.add(left);
 		panel.add(right);
 		panel.add(testLabel);
-		frame.add(panel, BorderLayout.CENTER);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	
 	
 	public void dispGame()
 	{
+		
 		frame.setTitle("GUI Test");
 		frame.pack();
 		frame.setVisible(true);
@@ -68,4 +69,6 @@ public class GUI implements ActionListener {
 		else if(e.getSource()==right)
 			testLabel.setText("right");
 	}
+	
+	
 }

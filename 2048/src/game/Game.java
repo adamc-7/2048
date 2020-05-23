@@ -131,7 +131,7 @@ public class Game {
 		}
 	}
 	
-	private void left()
+	public void left()
 	{
 		//This method and the other directional methods execute the command entered by first moving all of the tiles in the given direction.
 		//Then, they combine all of the tiles that are next to each other and have the same value. Then, they move all of the tiles again to
@@ -177,7 +177,7 @@ public class Game {
 		}
 	}
 	
-	private void right()
+	public void right()
 	{
 		moveRight();
 		
@@ -219,7 +219,7 @@ public class Game {
 			}
 		}
 	}
-	private void up()
+	public void up()
 	{
 		moveUp();
 		
@@ -260,7 +260,7 @@ public class Game {
 			}
 		}
 	}
-	private void down()
+	public void down()
 	{
 		moveDown();
 		
@@ -438,6 +438,12 @@ public class Game {
 				counter++;
 			}
 		}
+	}
+	
+	public int getPoints()
+	{
+		int p = points;
+		return p;
 	}
 	
 	
