@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GUI implements ActionListener {
+public class GUI implements ActionListener, KeyListener{
 
 	Game g;
 	JFrame frame;
@@ -25,7 +25,7 @@ public class GUI implements ActionListener {
 	JLabel testLabel;
 	
 	public GUI(Game game)
-	{
+	{	
 		g=game;
 		frame = new JFrame();
 		panel=new JPanel();
@@ -46,6 +46,7 @@ public class GUI implements ActionListener {
 		panel.add(right);
 		panel.add(testLabel);
 		frame.add(panel, BorderLayout.CENTER);
+		panel.addKeyListener(this);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -71,6 +72,38 @@ public class GUI implements ActionListener {
 		else if(e.getSource()==right)
 			testLabel.setText("right");
 	}
-	
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int code=e.getKeyCode();
+		switch(code)
+		{
+		case KeyEvent.VK_W:testLabel.setText("up");
+			break;
+		case KeyEvent.VK_A:testLabel.setText("left");
+			break;
+		case KeyEvent.VK_D:testLabel.setText("right");					
+			break;
+		case KeyEvent.VK_S:testLabel.setText("down");
+			break;
+		}
+		
+		frame.repaint();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
