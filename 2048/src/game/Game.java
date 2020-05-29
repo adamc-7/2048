@@ -1,7 +1,5 @@
 package game;
 
-//josh
-
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -103,8 +101,20 @@ public class Game {
 			}
 			printBoard();
 			
+			
 		}
-		System.out.println("Game Over");
+		System.out.println("Game Over! You scored " + getPoints() + "points.");
+		System.out.println("Would you like to play again? Type 'y' for yes, or 'n' for no.");
+		char play= in.hasNext();
+		
+		if(play=='y')
+		{
+			playGame();
+		}
+		else 
+		{
+			System.out.println("Thanks for playing!");
+		}
 	}
 	
 	public void playARound(char c)	//takes command in the form of a char and calls helper methods to execute the requested move
