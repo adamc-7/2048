@@ -45,8 +45,8 @@ public class GUI implements ActionListener, KeyListener{
 		panel.add(left);
 		panel.add(right);
 		panel.add(testLabel);
-		frame.add(panel, BorderLayout.CENTER);
 		panel.addKeyListener(this);
+		frame.add(panel, BorderLayout.CENTER);		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	

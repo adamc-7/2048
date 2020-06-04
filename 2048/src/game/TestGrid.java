@@ -4,9 +4,18 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class TestGrid extends JFrame{
+public class TestGrid extends JFrame implements ActionListener{
 	private Container contents;
 	private JButton [][] squares = new JButton[4][4];
+	JButton up;
+	JButton down;
+	JButton right;
+	JButton left;
+	JButton reset;
+	JButton howTo;
+	JButton placeHolder1;
+	JButton placeHolder2;
+	JFrame howToPlay;
 	
 	Game g = new Game();
 	
@@ -20,7 +29,7 @@ public class TestGrid extends JFrame{
 		super("Test Grid");
 		
 		contents = getContentPane();
-		contents.setLayout(new GridLayout(4,4));
+		contents.setLayout(new GridLayout(6,4));
 		
 		for(int i=0;i<4;i++)
 			for(int j=0;j<4;j++)
@@ -28,13 +37,42 @@ public class TestGrid extends JFrame{
 				squares [i][j] = new JButton();
 				contents.add(squares[i][j]);
 			}
-		setSize(500,500);
+		setSize(500,750);
+		up=new JButton("Up");
+		up.addActionListener(this);
+		down=new JButton("Down");
+		down.addActionListener(this);
+		right=new JButton("Right");
+		right.addActionListener(this);
+		left=new JButton("Left");
+		left.addActionListener(this);
+		reset=new JButton("Restart Game");
+		reset.addActionListener(this);
+		howTo=new JButton("How To Play");
+		howTo.addActionListener(this);
+		placeHolder1=new JButton("Score:");
+		placeHolder1.addActionListener(this);
+		placeHolder2=new JButton("0");
+		placeHolder2.addActionListener(this);
+		contents.add(up);
+		contents.add(down);
+		contents.add(left);
+		contents.add(right);
+		contents.add(reset);
+		contents.add(placeHolder1);
+		contents.add(placeHolder2);
+		contents.add(howTo);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setFocusable(true);
 		setVisible(true);
 		this.addKeyListener(new MyKeyListener());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		JFrame howToPlay = new JFrame();
+		howToPlay.add(new JLabel("Use the Arrow Keys, the WASD keys, or the buttons on the screen to move the tiles. Try to reach the 2048 tile!"));
+		howToPlay.setDefaultCloseOperation(HIDE_ON_CLOSE);
 	}
 	
 	class MyKeyListener extends KeyAdapter implements KeyListener
@@ -45,13 +83,13 @@ public class TestGrid extends JFrame{
 			Tile [][] temp = g.copyBoard(g.getBoard());
 			
 			
-		    if (e.getKeyCode()== KeyEvent.VK_W)
+		    if (e.getKeyCode()== KeyEvent.VK_W || e.getKeyCode()== KeyEvent.VK_UP)
 		            g.up();
-		    if (e.getKeyCode()== KeyEvent.VK_S)
+		    if (e.getKeyCode()== KeyEvent.VK_S || e.getKeyCode()== KeyEvent.VK_DOWN)
 		            g.down();
-		    if (e.getKeyCode()== KeyEvent.VK_A)
+		    if (e.getKeyCode()== KeyEvent.VK_A || e.getKeyCode()== KeyEvent.VK_LEFT)
 		            g.left();
-		    if (e.getKeyCode()== KeyEvent.VK_D)
+		    if (e.getKeyCode()== KeyEvent.VK_D || e.getKeyCode()== KeyEvent.VK_RIGHT)
 		            g.right();
 		    if(g.checkDifferent(temp))
 		    	g.choosePositionAndPlace();
@@ -82,6 +120,7 @@ public class TestGrid extends JFrame{
 				}
 					
 			}
+		placeHolder2.setText(new Integer(g.getPoints()).toString());
 	}
 	
 	public void chooseColor(JButton btn, int i, int j)
@@ -144,6 +183,39 @@ public class TestGrid extends JFrame{
 		TestGrid t = new TestGrid();
 		t.g.setUpBoard();
 		t.updateGame();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		if(e.getSource()==up||e.getSource()==down||e.getSource()==left||e.getSource()==right||e.getSource()==reset)
+		{
+		updateGame();
+		Tile [][] temp = g.copyBoard(g.getBoard());
+		
+		
+	    if (e.getSource()==up)
+	            g.up();
+	    if (e.getSource()==down)
+            g.down();
+	    if (e.getSource()==left)
+            g.left();
+	    if (e.getSource()==right)
+            g.right();
+	    if(g.checkDifferent(temp))
+	    	g.choosePositionAndPlace();
+	    
+	    if(e.getSource()==reset)
+	    	g.setUpBoard();
+		
+		updateGame();
+		}
+		else if(e.getSource()==howTo)
+		{
+			howToPlay.setVisible(true);
+		}
+		requestFocusInWindow();
 	}
 
 }

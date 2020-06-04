@@ -15,11 +15,23 @@ public class Game {
 	public void setUpBoard()
 	{
 		//Places two tiles on board to start the game
+		for(int r=0;r<4; r++)
+		{
+			for(int c=0; c<4;  c++)
+			{
+				board[r][c]=null;
+			}
+		}
 		choosePositionAndPlace();
 		choosePositionAndPlace();
+		resetPoints();
 	}
 	
-
+	public static void resetPoints()
+	{
+		points=0;
+	}
+	
 	public void printBoard()
 	{
 		//Prints the board in a 4 x 4 style
@@ -105,7 +117,7 @@ public class Game {
 		}
 		System.out.println("Game Over! You scored " + getPoints() + "points.");
 		System.out.println("Would you like to play again? Type 'y' for yes, or 'n' for no.");
-		char play= in.hasNext();
+		char play= in.next().charAt(0);
 		
 		if(play=='y')
 		{
