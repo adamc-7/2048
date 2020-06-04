@@ -1,6 +1,6 @@
 package game;
 
-import java.awt.*; 
+import java.awt.*;  
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -15,6 +15,7 @@ public class TestGrid extends JFrame implements ActionListener{
 	JButton how2play;
 	JButton placeHolder1;
 	JButton placeHolder2;
+	JButton addButtons;
 	JFrame helpFrame;
 	JLabel tutorial;
 	
@@ -26,7 +27,6 @@ public class TestGrid extends JFrame implements ActionListener{
 	String line6 ="so on. The object of the game is to create a tile worth 2048. After each move ";
 	String line7 ="made by the player, a new tile is generated in a random location. If the board ";
 	String line8 ="has no empty spaces and the player cannot combine tiles to create a space, the game ends.";
-	
 	Game g = new Game();
 	
 	GUI gui= new GUI(g);
@@ -87,6 +87,7 @@ public class TestGrid extends JFrame implements ActionListener{
 		
 		
 		tutorial= new JLabel("<html>" + line1 + "<html>" + line2 + "<html>" + line3 + "<html>" + line4 + "<html>" + line5 + "<html>"+ line6 + "<html>" + line7 + "<html>" + line8);
+		
 		placeHolder1=new JButton("Score:");
 		placeHolder1.addActionListener(this);
 		placeHolder1.setBorder(BorderFactory.createMatteBorder(7,7,7,0,new Color(187,173,160)));
@@ -98,8 +99,17 @@ public class TestGrid extends JFrame implements ActionListener{
 		placeHolder2.addActionListener(this);
 		placeHolder2.setBorder(BorderFactory.createMatteBorder(7,0,7,7,new Color(187,173,160)));
 		placeHolder2.setBackground(new Color(237,194,46));
-		placeHolder2.setFont(new Font("Helvetica Neue", Font.BOLD, 25));
+		placeHolder2.setFont(new Font("Helvetica Neue", Font.BOLD, 35));
 		placeHolder2.setForeground(Color.WHITE);
+		
+		addButtons=new JButton("Switch Mode");
+		addButtons.addActionListener(this);
+		addButtons.setBorder(BorderFactory.createMatteBorder(7,0,7,7,new Color(187,173,160)));
+		addButtons.setBackground(new Color(238,228,218));
+		addButtons.setFont(new Font("Helvetica Neue", Font.BOLD, 15));
+		addButtons.setForeground(Color.BLACK);
+		addButtons.setHorizontalTextPosition(SwingConstants.CENTER);
+		
 		
 		JButton empty1 = new JButton();
 		JButton empty2 = new JButton();
@@ -128,20 +138,7 @@ public class TestGrid extends JFrame implements ActionListener{
 				contents.add(squares[i][j]);
 			}
 		setSize(500,643);
-		
-		
-//		contents.add(empty1);
-//		contents.add(up);
-//		contents.add(down);
-//		contents.add(empty2);
-//		contents.add(empty3);
-//		contents.add(left);
-//		contents.add(right);
-//		contents.add(empty4);
-		
-		
-		
-		
+			
 		helpFrame = new JFrame();
 		helpFrame.add(tutorial,FlowLayout.LEFT);
 		helpFrame.setTitle("How to Play");
@@ -155,11 +152,6 @@ public class TestGrid extends JFrame implements ActionListener{
 		this.addKeyListener(new MyKeyListener());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		helpFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
-		
-//		JFrame howToPlay = new JFrame();
-//		howToPlay.add(new JLabel("Use the Arrow Keys, the WASD keys, or the buttons on the screen to move the tiles. Try to reach the 2048 tile!"));
-//		howToPlay.setDefaultCloseOperation(HIDE_ON_CLOSE);
 	}
 	
 	class MyKeyListener extends KeyAdapter implements KeyListener
@@ -187,27 +179,58 @@ public class TestGrid extends JFrame implements ActionListener{
 	    }
 	}
 	
+	public boolean lostGame()
+	{
+		if(g.moveAvailable()!=true)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	public void updateGame()
 	{
-		
-		for(int i=0;i<g.getBoard().length;i++)
-			for(int j=0;j<g.getBoard()[0].length;j++)
+		if(lostGame())
+		{
+			for(int i=0;i<g.getBoard().length;i++)
 			{
-				squares[i][j].setBorder(BorderFactory.createLineBorder(new Color(187,173,160),7));
-				if(g.getBoard()[i][j] != null)
+				for(int j=0;j<g.getBoard()[0].length;j++)
 				{
-					squares[i][j].setFont(new Font("Helvetica Neue", Font.BOLD, 55));
-					squares[i][j].setText(""+g.getBoard()[i][j].getVal());
-					chooseColor(squares[i][j],i,j);
+					squares[i][j].setForeground(Color.WHITE);
+					squares[i][j].setBackground(Color.BLACK);
+
 				}
-				else
-				{
-					squares[i][j].setText("");
-					squares[i][j].setBackground(new Color(119,110,101));
-				}
-					
+
 			}
-		placeHolder2.setText(new Integer(g.getPoints()).toString());
+			squares[0][0].setText(""); squares[0][1].setText(""); squares[0][2].setText(""); squares[0][3].setText("");
+			squares[1][0].setText("G"); squares[1][1].setText("A"); squares[1][2].setText("M"); squares[1][3].setText("E");
+			squares[2][0].setText("O"); squares[2][1].setText("V"); squares[2][2].setText("E"); squares[2][3].setText("R");
+			squares[3][0].setText(""); squares[3][1].setText(""); squares[3][2].setText(""); squares[3][3].setText("");
+		}
+		else
+		{
+			for(int i=0;i<g.getBoard().length;i++)
+				for(int j=0;j<g.getBoard()[0].length;j++)
+				{
+					squares[i][j].setBorder(BorderFactory.createLineBorder(new Color(187,173,160),7));
+					if(g.getBoard()[i][j] != null)
+					{
+						squares[i][j].setFont(new Font("Helvetica Neue", Font.BOLD, 55));
+						squares[i][j].setText(""+g.getBoard()[i][j].getVal());
+						chooseColor(squares[i][j],i,j);
+					}
+					else
+					{
+						squares[i][j].setText("");
+						squares[i][j].setBackground(new Color(119,110,101));
+					}
+						
+				}
+			placeHolder2.setText(new Integer(g.getPoints()).toString());
+		}
 	}
 	
 	public void chooseColor(JButton btn, int i, int j)
@@ -305,7 +328,6 @@ public class TestGrid extends JFrame implements ActionListener{
 		}
 		else if(e.getSource()==how2play)
 		{
-//			container
 			contents.removeAll();
 			contents.add(tutorial);
 			contents.revalidate();
@@ -325,7 +347,10 @@ public class TestGrid extends JFrame implements ActionListener{
 							contents.repaint();
 						}
 					});
-//			helpFrame.setVisible(true);
+		}
+		else if(e.getSource() == addButtons)
+		{
+			Buttons b1 = new Buttons(this);
 		}
 		requestFocusInWindow();
 		
