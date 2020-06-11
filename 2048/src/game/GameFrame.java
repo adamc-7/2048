@@ -3,7 +3,7 @@ package game;
 import java.awt.*;   
 import java.awt.event.*;
 import javax.swing.*;
-
+//main gui class
 public class GameFrame extends JFrame{
 	private Container contents;
 	JPanel mainPanel = new JPanel();
