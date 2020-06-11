@@ -88,6 +88,7 @@ public class TestGrid extends JFrame implements ActionListener{
 			for(int j=0;j<4;j++)
 			{
 				squares [i][j] = new JButton();
+				squares [i][j].addActionListener(this);
 				contents.add(squares[i][j]);
 			}
 		setSize(500,643);
