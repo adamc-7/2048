@@ -1,12 +1,15 @@
 package game;
 
-import java.awt.*;   
+import java.awt.*;    
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import game.TestGrid.MyKeyListener;
+import java.io.*;
 
-public class TestGrid extends JFrame implements ActionListener{
-	private Container contents;
-	private JButton [][] squares = new JButton[4][4];
+public class GamePanel extends JPanel{
+	JButton [][] squares = new JButton[4][4];
 	JButton up;
 	JButton down;
 	JButton right;
@@ -18,6 +21,8 @@ public class TestGrid extends JFrame implements ActionListener{
 	JButton addButtons;
 //	JFrame helpFrame;
 	JLabel tutorial;
+	int moveCounter = -1;
+	int highScore = 0;
 	
 	String line1 ="Use the Up, Down, Left, and Right buttons to move all tiles on the ";
 	String line2 ="grid the farthest they can travel in that direction. If two tiles with ";
@@ -34,97 +39,114 @@ public class TestGrid extends JFrame implements ActionListener{
 	
 	
 	
-	public TestGrid()
+	public GamePanel()
 	{
-		super("Test Grid");
-		
-		contents = getContentPane();
-		contents.setLayout(new GridLayout(5,4));
-		
-		reset=new JButton("Restart");
-		reset.addActionListener(this);
+		ImageIcon restart = new ImageIcon("Images/restartdark.png");
+		this.setLayout(new GridLayout(5,4));
+		reset=new JButton(restart);
+//		reset.setVerticalAlignment(SwingConstants.CENTER);
+		reset.setFocusable(false);
+//		reset.addActionListener(this);
 		reset.setBorder(BorderFactory.createLineBorder(new Color(187,173,160),7));
 		reset.setBackground(new Color(238,228,218));
-		reset.setFont(new Font("Helvetica Neue", Font.BOLD, 25));
-		reset.setForeground(Color.BLACK);
 		
-		how2play=new JButton("How To Play");
-		how2play.addActionListener(this);
+		ImageIcon settings = new ImageIcon("Images/settingsdark.png");
+		how2play=new JButton(settings);
+		how2play.setFocusable(false);
+//		how2play.addActionListener(this);
 		how2play.setBorder(BorderFactory.createLineBorder(new Color(187,173,160),7));
 		how2play.setBackground(new Color(238,228,218));
-		how2play.setFont(new Font("Helvetica Neue", Font.BOLD, 15));
+		how2play.setFont(new Font("Helvetica Neue", Font.BOLD, 25));
 		how2play.setForeground(Color.BLACK);
 		
 		tutorial= new JLabel("<html>" + line1 + "<html>" + line2 + "<html>" + line3 + "<html>" + line4 + "<html>" + line5 + "<html>"+ line6 + "<html>" + line7 + "<html>" + line8);
 		
 		placeHolder1=new JButton("Score:");
-		placeHolder1.addActionListener(this);
+//		placeHolder1.addActionListener(this);
 		placeHolder1.setBorder(BorderFactory.createMatteBorder(7,7,7,0,new Color(187,173,160)));
 		placeHolder1.setBackground(new Color(237,194,46));
 		placeHolder1.setFont(new Font("Helvetica Neue", Font.BOLD, 25));
 		placeHolder1.setForeground(Color.WHITE);
 		
 		placeHolder2=new JButton("0");
-		placeHolder2.addActionListener(this);
+//		placeHolder2.addActionListener(this);
 		placeHolder2.setBorder(BorderFactory.createMatteBorder(7,0,7,7,new Color(187,173,160)));
 		placeHolder2.setBackground(new Color(237,194,46));
 		placeHolder2.setFont(new Font("Helvetica Neue", Font.BOLD, 35));
 		placeHolder2.setForeground(Color.WHITE);
 		
 		addButtons=new JButton("Switch Mode");
-		addButtons.addActionListener(this);
+//		addButtons.addActionListener(this);
 		addButtons.setBorder(BorderFactory.createMatteBorder(7,7,7,7,new Color(187,173,160)));
 		addButtons.setBackground(new Color(238,228,218));
 		addButtons.setFont(new Font("Helvetica Neue", Font.BOLD, 15));
 		addButtons.setForeground(Color.BLACK);
 		addButtons.setHorizontalTextPosition(SwingConstants.CENTER);
 		
-		contents.add(reset);
-		contents.add(placeHolder1);
-		contents.add(placeHolder2);
-		contents.add(how2play);
+		this.add(reset);
+		this.add(placeHolder1);
+		this.add(placeHolder2);
+		this.add(how2play);
 		
 		for(int i=0;i<4;i++)
 			for(int j=0;j<4;j++)
 			{
 				squares [i][j] = new JButton();
-				contents.add(squares[i][j]);
+				this.add(squares[i][j]);
 			}
 		setSize(500,643);
-			
 //		helpFrame = new JFrame();
 //		helpFrame.add(tutorial,FlowLayout.LEFT);
 //		helpFrame.setTitle("How to Play");
 //		helpFrame.setLocationRelativeTo(null);
 //		helpFrame.setSize(400, 200);
 		
-		setResizable(false);
-		setLocationRelativeTo(null);
+//		setResizable(false);
+//		setLocationRelativeTo(null);
 		setFocusable(true);
 		setVisible(true);
-		this.addKeyListener(new MyKeyListener());
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.addKeyListener(new MyKeyListener(this));
+//		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		helpFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 	
 	class MyKeyListener extends KeyAdapter implements KeyListener
 	{
+		GamePanel gp;
+		public MyKeyListener(GamePanel gp)
+		{
+			this.gp = gp;
+		}
 		public void keyPressed(KeyEvent e)
 	    {
-			updateGame();
 			Tile [][] temp = g.copyBoard(g.getBoard());
 			
 			
 		    if (e.getKeyCode()== KeyEvent.VK_W || e.getKeyCode()== KeyEvent.VK_UP)
-		            g.up();
+		    {
+		    	
+		        g.up(gp);
+		    }
 		    if (e.getKeyCode()== KeyEvent.VK_S || e.getKeyCode()== KeyEvent.VK_DOWN)
-		            g.down();
+		    {
+	    		
+	            g.down(gp);
+		    }
 		    if (e.getKeyCode()== KeyEvent.VK_A || e.getKeyCode()== KeyEvent.VK_LEFT)
-		            g.left();
+		    {
+	    		
+	            g.left(gp);
+		    }
 		    if (e.getKeyCode()== KeyEvent.VK_D || e.getKeyCode()== KeyEvent.VK_RIGHT)
-		            g.right();
+		    {
+	    		
+	            g.right(gp);
+		    }
 		    if(g.checkDifferent(temp))
-		    	g.choosePositionAndPlace();
+		    {
+		    	moveCounter++;
+		    	g.choosePositionAndPlace(gp);
+		    }
 			
 			updateGame();
 	        
@@ -146,6 +168,7 @@ public class TestGrid extends JFrame implements ActionListener{
 	
 	public void updateGame()
 	{
+		
 		if(lostGame())
 		{
 			for(int i=0;i<g.getBoard().length;i++)
@@ -183,6 +206,10 @@ public class TestGrid extends JFrame implements ActionListener{
 						
 				}
 			placeHolder2.setText(new Integer(g.getPoints()).toString());
+		}
+		if(g.getPoints() > highScore)
+		{
+			highScore = g.getPoints();
 		}
 	}
 	
@@ -246,67 +273,63 @@ public class TestGrid extends JFrame implements ActionListener{
 	
 	
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		TestGrid t = new TestGrid();
-		t.g.setUpBoard();
-		t.updateGame();
-	}
+	
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		JButton goBack = new JButton("Go Back");
-		if(e.getSource()==up||e.getSource()==down||e.getSource()==left||e.getSource()==right||e.getSource()==reset)
-		{
-		updateGame();
-		Tile [][] temp = g.copyBoard(g.getBoard());
-		
-		
-	    if (e.getSource()==up)
-	            g.up();
-	    if (e.getSource()==down)
-            g.down();
-	    if (e.getSource()==left)
-            g.left();
-	    if (e.getSource()==right)
-            g.right();
-	    if(g.checkDifferent(temp))
-	    	g.choosePositionAndPlace();
-	    
-	    if(e.getSource()==reset)
-	    	g.setUpBoard();
-		
-		updateGame();
-		}
-		else if(e.getSource()==how2play)
-		{
-			contents.removeAll();
-			contents.add(tutorial);
-			contents.revalidate();
-			contents.repaint();
-			contents.add(goBack);
-			goBack.addActionListener(new ActionListener()
-					{
-						public void actionPerformed(ActionEvent event)
-						{
-							setVisible(false);
-							dispose();
-							contents.removeAll();
-							TestGrid t = new TestGrid();
-							t.g.setUpBoard();
-							t.updateGame();
-							contents.revalidate();
-							contents.repaint();
-						}
-					});
-		}
+//	@Override
+//	public void actionPerformed(ActionEvent e) {
+//		// TODO Auto-generated method stub
+//		JButton goBack = new JButton("Go Back");
+//		if(e.getSource()==up||e.getSource()==down||e.getSource()==left||e.getSource()==right||e.getSource()==reset)
+//		{
+//		updateGame();
+//		Tile [][] temp = g.copyBoard(g.getBoard());
+//		
+//		
+//	    if (e.getSource()==up)
+//	            g.up();
+//	    if (e.getSource()==down)
+//            g.down();
+//	    if (e.getSource()==left)
+//            g.left();
+//	    if (e.getSource()==right)
+//            g.right();
+//	    if(g.checkDifferent(temp))
+//	    	g.choosePositionAndPlace();
+//	    
+//	    if(e.getSource()==reset)
+//	    	g.setUpBoard();
+//		
+//		updateGame();
+//		}
+//		else if(e.getSource()==how2play)
+//		{
+//			this.removeAll();
+//			this.add(tutorial);
+//			this.revalidate();
+//			this.repaint();
+//			this.add(goBack);
+//			goBack.addActionListener(new ActionListener()
+//					{
+//						public void actionPerformed(ActionEvent event)
+//						{
+//							setVisible(false);
+//							dispose();
+//							this.removeAll();
+//							TestGrid t = new TestGrid();
+//							t.g.setUpBoard();
+//							t.updateGame();
+//							contents.revalidate();
+//							contents.repaint();
+//						}
+//					});
+//		}
 //		else if(e.getSource() == addButtons)
 //		{
 //			Buttons b1 = new Buttons(this);
 //		}
-		requestFocusInWindow();
-		
-	}
+//		requestFocusInWindow();
+//		
+//	}
 
 }
+

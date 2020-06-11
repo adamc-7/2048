@@ -1,8 +1,13 @@
 package game;
 
-import java.util.Scanner;
+import java.util.Scanner;  
 import java.util.concurrent.ThreadLocalRandom;
-
+import java.util.Timer;
+import java.util.TimerTask;
+import java.awt.*;    
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.concurrent.TimeUnit;
 public class Game {
 	Scanner in = new Scanner(System.in);
 	
@@ -95,6 +100,68 @@ public class Game {
 		}
 	}
 	
+	public void choosePositionAndPlace(GamePanel g)
+	{
+		int openCounter = 0;
+		
+		for(int i=0;i<board.length;i++) //counts number of open positions on board
+		{
+			for(int j=0;j<board[i].length;j++)
+			{
+				if(board[i][j] == null)
+				{
+					openCounter++;
+				}
+			}
+		}
+		if(openCounter == 0) //returns if no positions for a new tile are available
+		{
+			return;
+		}
+		int randomPos = ThreadLocalRandom.current().nextInt(0,openCounter); //sets randompos equal to an integer from 0 to openCounter-1 that represents one of the open positions found in the first traversal
+		openCounter = 0; //resets openCounter to use a second time
+		for(int i=0;i<board.length;i++) //traverses through board a second time until it reaches the position of the new tile. Once it reaches this point, it creates a new Tile and puts it in this position and then returns.
+		{
+			for(int j=0;j<board[i].length;j++)
+			{
+				if(board[i][j] == null)
+				{
+					if(openCounter == randomPos)
+					{
+						board[i][j] = new Tile();
+						JButton button = g.squares[i][j];
+						button.setBorder(BorderFactory.createLineBorder(new Color(187,173,160),61));
+						button.setFont(new Font("Helvetica Neue", Font.BOLD, 1));
+						Timer t = new Timer();
+						class Helper extends TimerTask 
+						{ 
+						    int borderSize = 62;
+						    int fontSize = 1;
+						    public void run() 
+						    {
+						    	if(borderSize < 8)
+						    	{
+						    		t.cancel();
+						    	}
+						    	else
+						    	{
+						    		borderSize--;
+						    		fontSize++;
+						    	}
+						    	
+						    	button.setBorder(BorderFactory.createLineBorder(new Color(187,173,160),borderSize));
+						    	button.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+						    	g.revalidate();
+						    } 
+						}
+						t.schedule(new Helper(),1,5);
+						return;
+					}
+					openCounter++;
+				}
+			}
+		}
+	}
 	public void playGame()
 	{
 		System.out.println("Each round, enter 'a','s','w', or 'd'. (a=left,d=right,w=up,s=down)");
@@ -155,6 +222,345 @@ public class Game {
 		}
 	}
 	
+	public void left(GamePanel g)
+	{
+		//This method and the other directional methods execute the command entered by first moving all of the tiles in the given direction.
+		//Then, they combine all of the tiles that are next to each other and have the same value. Then, they move all of the tiles again to
+		//fill the empty spaces created when combining the tiles with the other non-combined tiles.
+		moveLeft(g); 
+		for(int i=0; i<board.length; i++)
+		{
+			for(int j=1; j<board[0].length; j++)
+			{
+				if(board[i][j] != null && board[i][j-1] != null)
+				{
+					if(board[i][j-1].getVal() == board[i][j].getVal())
+					{
+						board[i][j-1].updateVal();
+						board[i][j] = null;
+						JButton button = g.squares[i][j-1];
+						Timer t = new Timer();
+						class Helper extends TimerTask 
+						{ 
+						    int borderSize = 7;
+						    int fontSize = 55;
+						    boolean goBack = false;
+						    public void run() 
+						    {
+						    	if(borderSize < 3)
+						    	{
+						    		goBack = true;
+						    		
+						    	}
+						    	if(goBack == true)
+						    	{
+						    		if(borderSize == 7)
+						    		{
+						    			goBack = false;
+						    			t.cancel();
+						    		}
+						    		else
+						    		{
+						    			borderSize++;
+						    			fontSize -=5;
+						    		}
+						    	}
+						    	else
+						    	{
+						    		borderSize--;
+						    		fontSize +=5;
+						    	}
+						    	
+						    	button.setBorder(BorderFactory.createLineBorder(new Color(187,173,160),borderSize));
+						    	button.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+						    	g.revalidate();
+						    } 
+						}
+						t.schedule(new Helper(),1,25);
+						g.updateGame();
+					}
+				}					
+			}
+		}
+		
+		moveLeft(g);
+	}
+	
+	private void moveLeft(GamePanel g)
+	{
+		//This method and the other move____ methods are private helper methods for the main directional methods which move all of the tiles in the given direction.
+		for(int i=0; i<board.length; i++)
+		{
+			for(int j=1; j<board[0].length; j++)
+			{
+				if(board[i][j] != null)
+				{
+					int cur = j-1;
+					while(cur >= 0 && board[i][cur] == null)
+					{
+						board[i][cur] = board[i][cur+1];
+						board[i][cur+1] = null;
+						cur--;
+						g.updateGame();
+					}
+				}					
+			}
+		}
+	}
+	
+	public void right(GamePanel g)
+	{
+		
+		moveRight(g);
+		
+		for(int i=0; i<board.length; i++)
+		{
+			for(int j=board[0].length-2; j>=0; j--)
+			{
+				if(board[i][j] != null && board[i][j+1] != null)
+				{
+					if(board[i][j+1].getVal() == board[i][j].getVal())
+					{
+						board[i][j+1].updateVal();
+						board[i][j] = null;
+						JButton button = g.squares[i][j+1];
+						Timer t = new Timer();
+						class Helper extends TimerTask 
+						{ 
+						    int borderSize = 7;
+						    int fontSize = 55;
+						    boolean goBack = false;
+						    public void run() 
+						    {
+						    	if(borderSize < 3)
+						    	{
+						    		goBack = true;
+						    		
+						    	}
+						    	if(goBack == true)
+						    	{
+						    		if(borderSize == 7)
+						    		{
+						    			goBack = false;
+						    			t.cancel();
+						    		}
+						    		else
+						    		{
+						    			borderSize++;
+						    			fontSize -=5;
+						    		}
+						    	}
+						    	else
+						    	{
+						    		borderSize--;
+						    		fontSize +=5;
+						    	}
+						    	
+						    	button.setBorder(BorderFactory.createLineBorder(new Color(187,173,160),borderSize));
+						    	button.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+						    	g.revalidate();
+						    } 
+						}
+						t.schedule(new Helper(),1,25);
+						g.updateGame();
+					}
+				}					
+			}
+		}
+		
+		moveRight(g);
+		
+		
+	}
+	
+	private void moveRight(GamePanel g)
+	{
+		for(int i=0; i<board.length; i++)
+		{
+			for(int j=board[0].length-2; j>=0; j--)
+			{
+				if(board[i][j] != null)
+				{
+					int cur = j+1;
+					while(cur < board[i].length && board[i][cur] == null)
+					{
+						board[i][cur] = board[i][cur-1];
+						board[i][cur-1] = null;
+						cur++;
+						g.updateGame();
+					}
+				}					
+			}
+		}
+	}
+	public void up(GamePanel g)
+	{
+		moveUp(g);
+		
+		for(int j=0; j<board[0].length; j++)
+		{
+			for(int i=1; i<board.length; i++)
+			{
+				if(board[i][j] != null && board[i-1][j] != null)
+				{
+					if(board[i-1][j].getVal() == board[i][j].getVal())
+					{
+						board[i-1][j].updateVal();
+						board[i][j] = null;
+						JButton button = g.squares[i-1][j];
+						Timer t = new Timer();
+						class Helper extends TimerTask 
+						{ 
+						    int borderSize = 7;
+						    int fontSize = 55;
+						    boolean goBack = false;
+						    public void run() 
+						    {
+						    	if(borderSize < 3)
+						    	{
+						    		goBack = true;
+						    		
+						    	}
+						    	if(goBack == true)
+						    	{
+						    		if(borderSize == 7)
+						    		{
+						    			goBack = false;
+						    			t.cancel();
+						    		}
+						    		else
+						    		{
+						    			borderSize++;
+						    			fontSize -=5;
+						    		}
+						    	}
+						    	else
+						    	{
+						    		borderSize--;
+						    		fontSize +=5;
+						    	}
+						    	
+						    	button.setBorder(BorderFactory.createLineBorder(new Color(187,173,160),borderSize));
+						    	button.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+						    	g.revalidate();
+						    } 
+						}
+						t.schedule(new Helper(),1,25);
+						g.updateGame();
+					}
+				}					
+			}
+		}
+		
+		moveUp(g);
+	}
+	
+	private void moveUp(GamePanel g)
+	{
+		for(int j=0; j<board[0].length; j++)
+		{
+			for(int i=1; i<board.length; i++)
+			{
+				if(board[i][j] != null)
+				{
+					int cur = i-1;
+					while(cur >= 0 && board[cur][j] == null)
+					{
+						board[cur][j] = board[cur+1][j];
+						board[cur+1][j] = null;
+						cur--;
+						g.updateGame();
+					}
+				}					
+			}
+		}
+	}
+	public void down(GamePanel g)
+	{
+		moveDown(g);
+		
+		for(int j=0; j<board[0].length; j++)
+		{
+			for(int i=board.length-2; i>=0; i--)
+			{
+				if(board[i][j] != null && board[i+1][j] != null)
+				{
+					if(board[i+1][j].getVal() == board[i][j].getVal())
+					{
+						board[i+1][j].updateVal();
+						board[i][j] = null;
+						JButton button = g.squares[i+1][j];
+						Timer t = new Timer();
+						class Helper extends TimerTask 
+						{ 
+						    int borderSize = 7;
+						    int fontSize = 55;
+						    boolean goBack = false;
+						    public void run() 
+						    {
+						    	if(borderSize < 3)
+						    	{
+						    		goBack = true;
+						    		
+						    	}
+						    	if(goBack == true)
+						    	{
+						    		if(borderSize == 7)
+						    		{
+						    			goBack = false;
+						    			t.cancel();
+						    		}
+						    		else
+						    		{
+						    			borderSize++;
+						    			fontSize -=5;
+						    		}
+						    	}
+						    	else
+						    	{
+						    		borderSize--;
+						    		fontSize +=5;
+						    	}
+						    	
+						    	button.setBorder(BorderFactory.createLineBorder(new Color(187,173,160),borderSize));
+						    	button.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+						    	g.revalidate();
+						    } 
+						}
+						t.schedule(new Helper(),1,25);
+						g.updateGame();
+					}
+				}					
+			}
+		}
+		
+		moveDown(g);	
+	}
+	
+	private void moveDown(GamePanel g)
+	{
+		for(int j=0; j<board[0].length; j++)
+		{
+			for(int i=board.length-2; i>=0; i--)
+			{
+				if(board[i][j] != null)
+				{
+					int cur = i+1;
+					while(cur < board[i].length && board[cur][j] == null)
+					{
+						board[cur][j] = board[cur-1][j];
+						board[cur-1][j] = null;
+						cur++;
+						g.updateGame();
+					}
+				}					
+			}
+		}
+	}
+	
+	
+	
+	
 	public void left()
 	{
 		//This method and the other directional methods execute the command entered by first moving all of the tiles in the given direction.
@@ -172,6 +578,7 @@ public class Game {
 					{
 						board[i][j-1].updateVal();
 						board[i][j] = null;
+						
 					}
 				}					
 			}
@@ -195,6 +602,7 @@ public class Game {
 						board[i][cur] = board[i][cur+1];
 						board[i][cur+1] = null;
 						cur--;
+						
 					}
 				}					
 			}
@@ -215,6 +623,7 @@ public class Game {
 					{
 						board[i][j+1].updateVal();
 						board[i][j] = null;
+						
 					}
 				}					
 			}
@@ -238,11 +647,13 @@ public class Game {
 						board[i][cur] = board[i][cur-1];
 						board[i][cur-1] = null;
 						cur++;
+						
 					}
 				}					
 			}
 		}
 	}
+	
 	public void up()
 	{
 		moveUp();
@@ -257,6 +668,7 @@ public class Game {
 					{
 						board[i-1][j].updateVal();
 						board[i][j] = null;
+						
 					}
 				}					
 			}
@@ -279,11 +691,13 @@ public class Game {
 						board[cur][j] = board[cur+1][j];
 						board[cur+1][j] = null;
 						cur--;
+						
 					}
 				}					
 			}
 		}
 	}
+	
 	public void down()
 	{
 		moveDown();
@@ -298,6 +712,7 @@ public class Game {
 					{
 						board[i+1][j].updateVal();
 						board[i][j] = null;
+						
 					}
 				}					
 			}
@@ -320,12 +735,12 @@ public class Game {
 						board[cur][j] = board[cur-1][j];
 						board[cur-1][j] = null;
 						cur++;
+						
 					}
 				}					
 			}
 		}
 	}
-	
 	public boolean checkDifferent(Tile[][] t)
 	{
 		for(int i=0;i<board.length;i++)

@@ -12,9 +12,9 @@ public class Buttons extends JFrame implements ActionListener{
 	BasicArrowButton down;
 	BasicArrowButton right;
 	BasicArrowButton left;
-	TestGrid t;
+	GamePanel t;
 
-	public Buttons(TestGrid newT)
+	public Buttons(GamePanel newT)
 	{
 		t = newT;
 		Container buttonContents = getContentPane();
@@ -84,13 +84,13 @@ public class Buttons extends JFrame implements ActionListener{
 		
 		
 	    if (e.getSource()==up)
-	        t.g.up();
+	        t.g.up(t);
 	    if (e.getSource()==down)
-            t.g.down();
+            t.g.down(t);
 	    if (e.getSource()==left)
-            t.g.left();
+            t.g.left(t);
 	    if (e.getSource()==right)
-            t.g.right();
+            t.g.right(t);
 	    if(t.g.checkDifferent(temp))
 	    	t.g.choosePositionAndPlace();
 		t.updateGame();
