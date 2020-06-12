@@ -19,9 +19,17 @@ public class HowToPlayPanel extends JPanel{
 	
 	public HowToPlayPanel()
 	{
-		tutorial= new JLabel("<html><div style ='text-align:center;'>"+line1+"<br/>"+line2+"<br/>"+line3+"<br/>"+line4+"<br/>"+line5+"<br/>"+line6+"<br/>"+line7+"<br/>"+line8+"<br/>"+line9+"</div></html>");
+		this.setBackground(new Color(238,228,218));
+		tutorial= new JLabel("<html><div style ='text-align:center;'><br/><br/><br/>"+line1+"<br/>"+line2+"<br/>"+line3+"<br/>"+line4+"<br/>"+line5+"<br/>"+line6+"<br/>"+line7+"<br/>"+line8+"<br/>"+line9+"<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div></html>");
 		this.add(tutorial);
-		goBack = new JButton("Go Back");
+		tutorial.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		goBack = new JButton("GO BACK");
+		goBack.setAlignmentX(Component.CENTER_ALIGNMENT);
+		goBack.setBorder(BorderFactory.createMatteBorder(3,60,3,60,new Color(187,173,160)));
+		goBack.setBackground(new Color(187,173,160));
+		goBack.setFont(new Font("Helvetica Neue", Font.BOLD, 40));
+		goBack.setForeground(Color.WHITE);
 		this.add(goBack);
 		setSize(500,643);
 	}

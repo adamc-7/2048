@@ -1,8 +1,12 @@
 package game;
 
-import java.awt.*;   
+import java.awt.*;     
 import java.awt.event.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.*;
+
 //main gui class
 public class GameFrame extends JFrame{
 	private Container contents;
@@ -42,6 +46,58 @@ public class GameFrame extends JFrame{
 				c.show(mainPanel,"GameBoard");
 				gp.requestFocus();
 			}
+		});
+		
+		tp.play.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 10;
+				    int fontSize = 50;
+				    public void run() 
+				    {
+				    	if(borderSize == 15)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize++;
+				    		fontSize+=2;
+				    	}
+				    	
+				    	tp.play.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 14;
+				    int fontSize = 60;
+				    public void run() 
+				    {
+				    	if(borderSize == 10)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize--;
+				    		fontSize-=2;
+				    	}				    	
+				    	tp.play.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+		    }
 		});
 		
 		gp.reset.addActionListener(new ActionListener() {
@@ -117,12 +173,272 @@ public class GameFrame extends JFrame{
 			}
 		});
 		
+		sp.howToPlay.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 10;
+				    int fontSize = 40;
+				    public void run() 
+				    {
+				    	if(borderSize == 15)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize++;
+				    		fontSize+=2;
+				    	}
+				    	sp.howToPlay.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 14;
+				    int fontSize = 48;
+				    public void run() 
+				    {
+				    	if(borderSize == 10)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize--;
+				    		fontSize-=2;
+				    	}
+				    	sp.howToPlay.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+		    }
+		});
+		
+		sp.addButtons.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 10;
+				    int fontSize = 40;
+				    public void run() 
+				    {
+				    	if(borderSize == 15)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize++;
+				    		fontSize+=2;
+				    	}
+				    	sp.addButtons.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 14;
+				    int fontSize = 48;
+				    public void run() 
+				    {
+				    	if(borderSize == 10)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize--;
+				    		fontSize-=2;
+				    	}
+				    	sp.addButtons.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+		    }
+		});
+		
+		sp.stats.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 10;
+				    int fontSize = 40;
+				    public void run() 
+				    {
+				    	if(borderSize == 15)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize++;
+				    		fontSize+=2;
+				    	}
+				    	
+				    	sp.stats.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 14;
+				    int fontSize = 48;
+				    public void run() 
+				    {
+				    	if(borderSize == 10)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize--;
+				    		fontSize-=2;
+				    	}
+				    	sp.stats.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+		    }
+		});
+		
+		sp.goBack.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 10;
+				    int fontSize = 40;
+				    public void run() 
+				    {
+				    	if(borderSize == 15)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize++;
+				    		fontSize+=2;
+				    	}
+				    	
+				    	sp.goBack.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 14;
+				    int fontSize = 48;
+				    public void run() 
+				    {
+				    	if(borderSize == 10)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize--;
+				    		fontSize-=2;
+				    	}				    	
+				    	sp.goBack.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+		    }
+		});
+		
+		
+		
 		stp.goBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
 				c.show(mainPanel,"Settings");
 				gp.requestFocus();
 			}
+		});
+		
+		stp.goBack.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 10;
+				    int fontSize = 40;
+				    public void run() 
+				    {
+				    	if(borderSize == 15)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize++;
+				    		fontSize+=2;
+				    	}
+				    	
+				    	stp.goBack.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 14;
+				    int fontSize = 48;
+				    public void run() 
+				    {
+				    	if(borderSize == 10)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize--;
+				    		fontSize-=2;
+				    	}				    	
+				    	stp.goBack.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+		    }
 		});
 		
 		htp.goBack.addActionListener(new ActionListener() {
@@ -133,6 +449,57 @@ public class GameFrame extends JFrame{
 			}
 		});
 		
+		htp.goBack.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 10;
+				    int fontSize = 40;
+				    public void run() 
+				    {
+				    	if(borderSize == 15)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize++;
+				    		fontSize+=2;
+				    	}
+				    	
+				    	htp.goBack.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	Timer t = new Timer();
+				class Helper extends TimerTask 
+				{ 
+				    int borderSize = 14;
+				    int fontSize = 48;
+				    public void run() 
+				    {
+				    	if(borderSize == 10)
+				    	{
+				    		t.cancel();
+				    	}
+				    	else
+				    	{
+				    		borderSize--;
+				    		fontSize-=2;
+				    	}				    	
+				    	htp.goBack.setFont(new Font("Helvetica Neue", Font.BOLD, fontSize));
+				    	
+				    } 
+				}
+				t.schedule(new Helper(),1,15);
+		    }
+		});
 	
 		
 		

@@ -92,7 +92,7 @@ public class Buttons extends JFrame implements ActionListener{
 	    if (e.getSource()==right)
             t.g.right(t);
 	    if(t.g.checkDifferent(temp))
-	    	t.g.choosePositionAndPlace();
+	    	t.g.choosePositionAndPlace(t);
 		t.updateGame();
 		}
 	}

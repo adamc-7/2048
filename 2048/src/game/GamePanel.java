@@ -1,6 +1,6 @@
 package game;
 
-import java.awt.*;    
+import java.awt.*;     
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.Image;
@@ -21,7 +21,7 @@ public class GamePanel extends JPanel{
 	JButton addButtons;
 //	JFrame helpFrame;
 	JLabel tutorial;
-	int moveCounter = -1;
+	int moveCounter = 0;
 	int highScore = 0;
 	
 	String line1 ="Use the Up, Down, Left, and Right buttons to move all tiles on the ";
@@ -61,7 +61,7 @@ public class GamePanel extends JPanel{
 		
 		tutorial= new JLabel("<html>" + line1 + "<html>" + line2 + "<html>" + line3 + "<html>" + line4 + "<html>" + line5 + "<html>"+ line6 + "<html>" + line7 + "<html>" + line8);
 		
-		placeHolder1=new JButton("Score:");
+		placeHolder1=new JButton("SCORE:");
 //		placeHolder1.addActionListener(this);
 		placeHolder1.setBorder(BorderFactory.createMatteBorder(7,7,7,0,new Color(187,173,160)));
 		placeHolder1.setBackground(new Color(237,194,46));

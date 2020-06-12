@@ -1,6 +1,6 @@
 package game;
 
-import java.util.Scanner;  
+import java.util.Scanner;   
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Timer;
 import java.util.TimerTask;
